@@ -1,0 +1,637 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f8faf8" />
+  <meta name="description" content="HeatGuard provides experimental AI-assisted heat-risk insights and practical safety guidance." />
+  <title>HeatGuard | Personal Heat Safety</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+<div class="app-shell">
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="#overview" aria-label="HeatGuard home">
+      <span class="brand-icon"><i data-lucide="sun"></i></span>
+      <span>
+        <strong>heatguard<span class="brand-dot">.</span></strong>
+        <small>PERSONAL HEAT SAFETY</small>
+      </span>
+    </a>
+
+    <div class="sidebar-label">WORKSPACE</div>
+
+    <nav class="main-nav" aria-label="Main navigation">
+      <a href="#overview" class="nav-link active" data-section="overview">
+        <i data-lucide="layout-dashboard"></i>
+        <span>Overview</span>
+      </a>
+      <a href="#assessment" class="nav-link" data-section="assessment">
+        <i data-lucide="thermometer"></i>
+        <span>Risk Assessment</span>
+      </a>
+      <a href="#safety" class="nav-link" data-section="safety">
+        <i data-lucide="shield-check"></i>
+        <span>Safety Guide</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-spacer"></div>
+
+    <div class="privacy-card">
+      <span class="privacy-icon"><i data-lucide="shield-check"></i></span>
+      <strong>Your safety, your control</strong>
+      <p>Location access is optional. You choose when to share it.</p>
+    </div>
+
+    <div class="sidebar-footer">
+      <span class="status-dot"></span>
+      <span>AI-assisted prototype</span>
+    </div>
+  </aside>
+
+  <!-- Main application -->
+  <main class="main-content">
+
+    <header class="topbar">
+      <button class="icon-button mobile-menu" id="menu-toggle"
+        aria-label="Open navigation" aria-expanded="false">
+        <i data-lucide="menu"></i>
+      </button>
+
+      <div class="breadcrumb">
+        <span>HeatGuard</span>
+        <i data-lucide="chevron-right"></i>
+        <strong id="breadcrumb-current">Overview</strong>
+      </div>
+
+      <div class="topbar-actions">
+        <span class="privacy-pill">
+          <i data-lucide="lock-keyhole"></i>
+          Privacy-first
+        </span>
+        <button class="profile-avatar" id="profile-button"
+          aria-label="About HeatGuard">H</button>
+      </div>
+    </header>
+
+    <!-- OVERVIEW -->
+    <section class="page-section active" id="overview">
+      <div class="welcome-row">
+        <div>
+          <span class="eyebrow">YOUR PERSONAL HEAT COMPANION</span>
+          <h1>Understand your heat risk<span class="heading-period">.</span></h1>
+          <p class="page-subtitle">
+            Understand your environment, explore personal risk factors,
+            and find practical ways to stay safer in the heat.
+          </p>
+        </div>
+
+        <button class="button button-primary" id="start-assessment">
+          <i data-lucide="plus"></i>
+          New assessment
+        </button>
+      </div>
+
+      <!-- Live environment -->
+      <div class="environment-banner">
+        <div class="environment-heading">
+          <div class="weather-icon"><i data-lucide="cloud-sun"></i></div>
+          <div>
+            <span class="eyebrow">YOUR ENVIRONMENT</span>
+            <h2 id="location-title">Let's check your surroundings</h2>
+            <p id="location-subtitle">
+              Allow location access to look up local environmental conditions.
+            </p>
+          </div>
+        </div>
+
+        <button class="button button-light" id="fetch-location">
+          <i data-lucide="map-pin"></i>
+          Use my location
+        </button>
+
+        <div class="environment-metrics">
+          <article class="environment-metric">
+            <span><i data-lucide="thermometer"></i> Air temperature</span>
+            <strong id="weather-temp">— °C</strong>
+            <small id="weather-temp-note">Awaiting weather data</small>
+          </article>
+
+          <article class="environment-metric">
+            <span><i data-lucide="droplets"></i> Humidity</span>
+            <strong id="weather-humidity">— %</strong>
+            <small>Relative humidity</small>
+          </article>
+
+          <article class="environment-metric">
+            <span><i data-lucide="wind"></i> Wind speed</span>
+            <strong id="weather-wind">— km/h</strong>
+            <small>Near-surface wind</small>
+          </article>
+
+          <article class="environment-metric">
+            <span><i data-lucide="sun"></i> Heat indicator</span>
+            <strong id="weather-wbgt">— °C</strong>
+            <small id="weather-wbgt-note">WBGT, when available</small>
+          </article>
+        </div>
+
+        <div class="weather-footer">
+          <span id="weather-status">No live readings loaded</span>
+          <span>Location is used only after permission</span>
+        </div>
+      </div>
+
+      <!-- Summary -->
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">YOUR SNAPSHOT</span>
+          <h2>Assessment at a glance</h2>
+        </div>
+        <span class="muted-label">Updates after assessment</span>
+      </div>
+
+      <div class="summary-grid">
+        <article class="summary-card score-summary">
+          <div class="card-topline">
+            <span class="summary-icon mint-icon">
+              <i data-lucide="activity"></i>
+            </span>
+            <span class="small-label">LATEST ESTIMATE</span>
+          </div>
+          <div class="summary-value" id="summary-score">—</div>
+          <p id="summary-score-note">
+            Complete an assessment to see your estimate.
+          </p>
+          <a href="#assessment" class="text-link">
+            Assess your risk <i data-lucide="arrow-up-right"></i>
+          </a>
+        </article>
+        <article class="summary-card">
+          <div class="card-topline">
+            <span class="summary-icon peach-icon">
+              <i data-lucide="calendar-clock"></i>
+            </span>
+            <span class="small-label">SAVED ASSESSMENTS</span>
+          </div>
+          <div class="summary-value" id="summary-count">0</div>
+          <p>Assessments saved on this device.</p>
+        </article>
+      </div>
+
+      <div class="disclaimer-strip">
+        <i data-lucide="info"></i>
+        <p>
+          HeatGuard is an experimental prototype, not a clinically validated
+          medical assessment. Its scores may be inaccurate and should not
+          replace official heat warnings or professional medical advice.
+        </p>
+      </div>
+    </section>
+
+    <!-- RISK ASSESSMENT -->
+    <section class="page-section" id="assessment">
+      <div class="section-intro">
+        <span class="eyebrow">PERSONALIZED ASSESSMENT</span>
+        <h1>Let's understand your exposure<span class="heading-period">.</span></h1>
+        <p class="page-subtitle">
+          Check your local environment and answer a few questions to generate
+          an experimental HeatGuard estimate.
+        </p>
+      </div>
+
+      <div class="assessment-layout">
+        <form id="assessment-form" class="assessment-form" novalidate>
+
+          <!-- Environment summary; technical inputs stay hidden -->
+          <div class="panel form-panel">
+            <div class="form-section-heading">
+              <span class="form-step">01</span>
+              <div>
+                <h3>Your environment</h3>
+                <p>
+                  Fetch your local weather. HeatGuard will prepare the
+                  environmental inputs used by the model.
+                </p>
+              </div>
+            </div>
+
+            <div class="environment-metrics assessment-weather-summary">
+              <article class="environment-metric">
+                <span><i data-lucide="map-pin"></i> Location</span>
+                <strong id="assessment-city">Not loaded</strong>
+              </article>
+              <article class="environment-metric">
+                <span><i data-lucide="thermometer"></i> Temperature</span>
+                <strong id="assessment-temp">— °C</strong>
+              </article>
+              <article class="environment-metric">
+                <span><i data-lucide="droplets"></i> Humidity</span>
+                <strong id="assessment-humidity">— %</strong>
+              </article>
+              <article class="environment-metric">
+                <span><i data-lucide="sun"></i> Heat indicator</span>
+                <strong id="assessment-wbgt">— °C</strong>
+              </article>
+            </div>
+
+            <button class="button button-secondary button-small"
+              type="button" id="apply-weather">
+              <i data-lucide="cloud-download"></i>
+              Prepare environmental data
+            </button>
+
+            <p class="muted-copy">
+              Technical weather features are not questions for you to answer.
+              Historical or unavailable measurements must be handled by the
+              prototype and may limit the reliability of the result.
+            </p>
+
+            <!-- Required API fields: populated by script.js, not user-entered -->
+            <div hidden aria-hidden="true">
+              <input name="city" type="text" />
+              
+<div hidden aria-hidden="true">
+  <input name="city" type="text" />
+
+  <input name="air_temp_c" type="number" step="any" />
+  <input name="rh_pct" type="number" step="any" />
+  <input name="wind_kmh" type="number" step="any" />
+  <input name="solar_wm2" type="number" step="any" />
+
+  <input name="rain_last_24h_mm" type="number" step="any" />
+  <input name="pm25_ugm3" type="number" step="any" />
+  <input name="ozone_ppb" type="number" step="any" />
+  <input name="no2_ppb" type="number" step="any" />
+
+  <input name="estimated_wbgt" type="number" step="any" />
+  <input name="night_min_c" type="number" step="any" />
+  <input name="cumulative_heat_3d" type="number" step="any" />
+
+  <input name="temperature_max_v2_c" type="number" step="any" />
+  <input name="wbgt_mean_v2_c" type="number" step="any" />
+  <input name="wbgt_max_v2_c" type="number" step="any" />
+  <input name="wbgt_min_v2_c" type="number" step="any" />
+
+  <input name="shortwave_mean_v2_wm2" type="number" step="any" />
+  <input name="shortwave_max_v2_wm2" type="number" step="any" />
+  <input name="elevation_v2_m" type="number" step="any" />
+</div>
+
+            </div>
+          </div>
+
+          <!-- Personal profile -->
+          <div class="panel form-panel">
+            <div class="form-section-heading">
+              <span class="form-step">02</span>
+              <div>
+                <h3>About you</h3>
+                <p>
+                  These questions represent individual vulnerability and
+                  exposure. Answer only what you are comfortable sharing.
+                </p>
+              </div>
+            </div>
+
+            <div class="form-grid">
+              <label class="field">
+                Age
+                <input name="age" type="number" min="0" max="120"
+                  step="1" required />
+              </label>
+
+              <label class="field">
+                Gender
+                <select name="gender" required>
+                  <option value="">Select an option</option>
+                  <option value="Female">Female</option>
+                  <option value="Male">Male</option>
+                  <option value="Other">Other</option>
+                </select>
+              </label>
+
+              <label class="field">
+                How physically demanding is your activity?
+                <select name="exertion_level" required>
+                  <option value="">Select an option</option>
+                  <option value="Low">Low — mostly resting or sitting</option>
+                  <option value="Moderate">Moderate — walking or regular activity</option>
+                  <option value="High">High — strenuous physical activity</option>
+                </select>
+              </label>
+
+              <label class="field">
+                Hydration score (0–1)
+                <input name="hydration_score" type="number"
+                  min="0" max="1" step="0.01" placeholder="Optional" />
+                <small>
+                  This is a prototype dataset scale, not a direct medical
+                  measurement.
+                </small>
+              </label>
+            </div>
+
+            <div class="toggle-grid">
+              <label class="toggle-field">
+                <span>Pregnant</span>
+                <input type="checkbox" name="pregnant" />
+                <span class="toggle-ui"></span>
+              </label>
+              <label class="toggle-field">
+                <span>Chronic health condition</span>
+                <input type="checkbox" name="chronic_condition" />
+                <span class="toggle-ui"></span>
+              </label>
+              <label class="toggle-field">
+                <span>Heart disease</span>
+                <input type="checkbox" name="heart_disease" />
+                <span class="toggle-ui"></span>
+              </label>
+              <label class="toggle-field">
+                <span>Diabetes</span>
+                <input type="checkbox" name="diabetes" />
+                <span class="toggle-ui"></span>
+              </label>
+              <label class="toggle-field">
+                <span>Chronic kidney disease</span>
+                <input type="checkbox" name="ckd" />
+                <span class="toggle-ui"></span>
+              </label>
+              <label class="toggle-field">
+                <span>Taking diuretic medication</span>
+                <input type="checkbox" name="diuretic" />
+                <span class="toggle-ui"></span>
+              </label>
+              <label class="toggle-field">
+                <span>Taking beta-blocker medication</span>
+                <input type="checkbox" name="beta_blocker" />
+                <span class="toggle-ui"></span>
+              </label>
+              <label class="toggle-field">
+                <span>Working outdoors</span>
+                <input type="checkbox" name="outdoor_work" />
+                <span class="toggle-ui"></span>
+              </label>
+              <label class="toggle-field">
+                <span>Accustomed to hot weather</span>
+                <input type="checkbox" name="acclimatized" />
+                <span class="toggle-ui"></span>
+              </label>
+            </div>
+
+            <p class="privacy-note">
+              <i data-lucide="lock-keyhole"></i>
+              Health information is sensitive. This prototype saves assessments
+              locally only when you choose to save them. Avoid entering
+              information you do not want stored in this browser.
+            </p>
+          </div>
+
+          <!-- Symptoms -->
+          <div class="panel form-panel">
+            <div class="form-section-heading">
+              <span class="form-step">03</span>
+              <div>
+                <h3>How are you feeling?</h3>
+                <p>
+                  Symptoms may need attention regardless of the model's result.
+                </p>
+              </div>
+            </div>
+
+            <div class="toggle-grid symptoms-grid">
+              <label class="toggle-field">
+                <span>Headache</span>
+                <input type="checkbox" name="headache" />
+                <span class="toggle-ui"></span>
+              </label>
+              <label class="toggle-field">
+                <span>Dizziness</span>
+                <input type="checkbox" name="dizziness" />
+                <span class="toggle-ui"></span>
+              </label>
+              <label class="toggle-field">
+                <span>Nausea</span>
+                <input type="checkbox" name="nausea" />
+                <span class="toggle-ui"></span>
+              </label>
+            </div>
+
+            <div class="symptom-alert">
+              <i data-lucide="heart-pulse"></i>
+              <p>
+                Confusion, fainting, seizures or suspected heatstroke can be
+                emergencies. Seek emergency medical help immediately. Do not
+                wait for an AI result.
+              </p>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="form-actions">
+            <button type="button" class="button button-secondary" id="load-demo">
+              <i data-lucide="flask-conical"></i>
+              Load demo data
+            </button>
+
+            <button type="reset" class="button button-secondary" id="reset-form">
+              Clear fields
+            </button>
+
+           <button type="submit" id="submit-assessment" class="button button-primary">
+  <i data-lucide="activity"></i>
+  Calculate Estimate
+</button>
+          </div>
+
+          <p class="form-message" id="form-message"
+            role="status" aria-live="polite"></p>
+        </form>
+
+        <!-- Results -->
+        <aside class="result-sidebar">
+          <div class="panel result-panel" id="result-panel">
+            <span class="eyebrow">YOUR RESULT</span>
+            <h3>Assessment summary</h3>
+
+            <div class="result-placeholder" id="result-placeholder">
+              <span class="empty-icon"><i data-lucide="scan-heart"></i></span>
+              <strong>Your estimate will appear here</strong>
+              <p>
+                Complete the assessment to view the model score and available
+                explanations.
+              </p>
+            </div>
+
+            <div id="result-content" hidden>
+              <div class="risk-gauge" id="risk-gauge">
+                <div class="risk-gauge-inner">
+                  <strong id="result-score">—</strong>
+                  <span>out of 100</span>
+                </div>
+              </div>
+
+              <div class="risk-level-label" id="result-level">—</div>
+              <p class="result-caption" id="result-caption"></p>
+
+              <div class="result-divider"></div>
+              <h4>Key contributing factors</h4>
+              <div id="result-factors"></div>
+
+              <div class="result-divider"></div>
+              <h4>Suggested next steps</h4>
+              <div id="result-recommendations"></div>
+
+              <button type="button"
+                class="button button-secondary full-width"
+                id="save-assessment">
+                <i data-lucide="bookmark-plus"></i>
+                Save assessment
+              </button>
+            </div>
+          </div>
+
+          <div class="panel result-note">
+            <i data-lucide="info"></i>
+            <div>
+              <strong>Interpret results carefully</strong>
+              <p>
+                This experimental model can miss genuine risk or produce false
+                alarms. Follow official warnings and seek medical help when
+                needed.
+              </p>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- SAFETY GUIDE -->
+    <section class="page-section" id="safety">
+      <div class="section-intro">
+        <span class="eyebrow">PRACTICAL PRECAUTIONS</span>
+        <h1>Stay safer in the heat<span class="heading-period">.</span></h1>
+        <p class="page-subtitle">
+          Simple actions can help reduce heat exposure. Tick each item as you
+          review it.
+        </p>
+      </div>
+
+      <div class="insights-grid">
+        <article class="panel insight-panel safety-card">
+          <div class="panel-heading">
+            <div>
+              <span class="eyebrow">BEFORE GOING OUT</span>
+              <h3>Prepare for the conditions</h3>
+            </div>
+            <span class="panel-icon"><i data-lucide="sun"></i></span>
+          </div>
+
+          <label class="toggle-field safety-check">
+            <span>Check local weather and official heat alerts.</span>
+            <input type="checkbox" />
+            <span class="toggle-ui"></span>
+          </label>
+          <label class="toggle-field safety-check">
+            <span>Plan strenuous activities for cooler hours where possible.</span>
+            <input type="checkbox" />
+            <span class="toggle-ui"></span>
+          </label>
+          <label class="toggle-field safety-check">
+            <span>Carry water and wear light, breathable clothing.</span>
+            <input type="checkbox" />
+            <span class="toggle-ui"></span>
+          </label>
+        </article>
+
+        <article class="panel insight-panel safety-card">
+          <div class="panel-heading">
+            <div>
+              <span class="eyebrow">WHILE IN THE HEAT</span>
+              <h3>Reduce heat strain</h3>
+            </div>
+            <span class="panel-icon"><i data-lucide="droplets"></i></span>
+          </div>
+
+          <label class="toggle-field safety-check">
+            <span>Take regular breaks in shade or a cool place.</span>
+            <input type="checkbox" />
+            <span class="toggle-ui"></span>
+          </label>
+          <label class="toggle-field safety-check">
+            <span>Drink water regularly, following any medical fluid restrictions.</span>
+            <input type="checkbox" />
+            <span class="toggle-ui"></span>
+          </label>
+          <label class="toggle-field safety-check">
+            <span>Reduce activity if you feel unwell, weak or overheated.</span>
+            <input type="checkbox" />
+            <span class="toggle-ui"></span>
+          </label>
+        </article>
+
+        <article class="panel insight-panel safety-card">
+          <div class="panel-heading">
+            <div>
+              <span class="eyebrow">LOOK OUT FOR OTHERS</span>
+              <h3>Recognize warning signs</h3>
+            </div>
+            <span class="panel-icon"><i data-lucide="heart-pulse"></i></span>
+          </div>
+
+          <label class="toggle-field safety-check">
+            <span>Check on children, older adults and vulnerable people.</span>
+            <input type="checkbox" />
+            <span class="toggle-ui"></span>
+          </label>
+          <label class="toggle-field safety-check">
+            <span>Take dizziness, nausea, headache or unusual weakness seriously.</span>
+            <input type="checkbox" />
+            <span class="toggle-ui"></span>
+          </label>
+          <label class="toggle-field safety-check">
+            <span>Know how to contact local emergency services.</span>
+            <input type="checkbox" />
+            <span class="toggle-ui"></span>
+          </label>
+        </article>
+      </div>
+
+      <div class="emergency-banner">
+        <span class="emergency-icon"><i data-lucide="heart-pulse"></i></span>
+        <div>
+          <span class="eyebrow">WHEN TO GET HELP</span>
+          <h3>Don't wait for a model score in an emergency</h3>
+          <p>
+            Confusion, collapse, seizures or suspected heatstroke require
+            immediate emergency help. Move the person to a cooler place and
+            begin appropriate cooling while help is on the way.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="app-footer">
+      <a class="footer-brand" href="#overview">heatguard<span>.</span></a>
+      <p>Built for awareness, exploration and safer decisions in hot conditions.</p>
+      <span>Experimental prototype · Not for diagnosis</span>
+    </footer>
+  </main>
+</div>
+
+<div class="toast-container" id="toast-container" aria-live="polite"></div>
+</body>
+</html>
